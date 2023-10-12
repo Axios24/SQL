@@ -1,0 +1,89 @@
+CREATE SCHEMA BD_Shoestore;
+USE BD_Shoestore;
+CREATE TABLE Customers (
+	CustomerID INTEGER PRIMARY KEY, 
+	CustomerFName VARCHAR(25), 
+	CustomerLName VARCHAR(25), 
+	Age INTEGER, 
+	Phone INTEGER, 
+	Mail VARCHAR(25),
+    BirthDate DATETIME,
+	RegisterDate DATETIME
+);
+
+CREATE TABLE Stores (
+	StoreID INTEGER PRIMARY KEY,
+    Adress VARCHAR(255),
+    City VARCHAR (25),
+    Province VARCHAR (25),
+    Style VARCHAR (25),
+    Size NUMERIC,
+    OpeningDate DATETIME
+);
+
+CREATE TABLE Categories (
+	CategoryID INTEGER PRIMARY KEY,
+    CategoryName VARCHAR(20),
+    Description VARCHAR(20)
+);
+
+CREATE TABLE Brands (
+	BrandID INTEGER PRIMARY KEY,
+    BrandName VARCHAR(20),
+    Description VARCHAR(200)
+);
+
+CREATE TABLE Size (
+	SizeID INTEGER PRIMARY KEY,
+    Description VARCHAR(200)
+);
+
+CREATE TABLE Products (
+	ProductID INTEGER PRIMARY KEY,
+    ProductName VARCHAR(50),
+    CategoryID INTEGER,
+    BrandID INTEGER,
+    Season VARCHAR(50),
+    Price NUMERIC,
+    FOREIGN KEY (CategoryID) REFERENCES Categories (CategoryID),
+    FOREIGN KEY (BrandID) REFERENCES Brands (BrandID)
+);
+
+CREATE TABLE Employees (
+	EmployeeID INTEGER PRIMARY KEY,
+    FirstName VARCHAR(20),
+    LastName VARCHAR(20),
+    BirthDate DATETIME,
+    Phone INTEGER,
+    StoreID Integer,
+    FOREIGN KEY (StoreID) REFERENCES Stores (StoreID)
+);
+
+CREATE TABLE Sales (
+	SaleID INTEGER PRIMARY KEY AUTO_INCREMENT,
+    CustomerID INTEGER,
+    EmployeeID INTEGER,
+    StoreID INTEGER,
+    SalesDate DATETIME,
+    Amount NUMERIC,
+    FOREIGN KEY (CustomerID) REFERENCES Customers (CustomerID),
+    FOREIGN KEY (EmployeeID) REFERENCES Employees (EmployeeID),
+    FOREIGN KEY (StoreID) REFERENCES Stores (StoreID)
+);
+    
+CREATE TABLE SaleDetails (
+	SaleDetailID INTEGER PRIMARY KEY AUTO_INCREMENT,
+    SaleID INTEGER,
+    ProductID INTEGER,
+    SizeID INTEGER,
+    Quantity INTEGER,
+    FOREIGN KEY (SaleID) REFERENCES Sales (SaleID),
+    FOREIGN KEY (ProductID) REFERENCES Products (ProductID),
+    FOREIGN KEY (SizeID) REFERENCES Size (SizeID)
+);
+CREATE TABLE Stocks (
+		ProductID INTEGER PRIMARY KEY,
+        Stock INTEGER,
+        StockDate DATETIME,
+        Cost NUMERIC
+);
