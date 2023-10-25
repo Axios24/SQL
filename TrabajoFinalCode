@@ -17,20 +17,20 @@ CREATE TABLE Stores (
     City VARCHAR (25),
     Province VARCHAR (25),
     Style VARCHAR (25),
-    Size NUMERIC,
+    Size DOUBLE,
     OpeningDate DATETIME
 );
 
 CREATE TABLE Categories (
 	CategoryID INTEGER PRIMARY KEY,
     CategoryName VARCHAR(20),
-    Description VARCHAR(20)
+    Description VARCHAR(500)
 );
 
 CREATE TABLE Brands (
 	BrandID INTEGER PRIMARY KEY,
     BrandName VARCHAR(20),
-    Description VARCHAR(200)
+    Description VARCHAR(500)
 );
 
 CREATE TABLE Size (
@@ -44,7 +44,7 @@ CREATE TABLE Products (
     CategoryID INTEGER,
     BrandID INTEGER,
     Season VARCHAR(50),
-    Price NUMERIC,
+    Price DOUBLE,
     FOREIGN KEY (CategoryID) REFERENCES Categories (CategoryID),
     FOREIGN KEY (BrandID) REFERENCES Brands (BrandID)
 );
@@ -55,6 +55,7 @@ CREATE TABLE Employees (
     LastName VARCHAR(20),
     BirthDate DATETIME,
     Phone INTEGER,
+    JobDescription VARCHAR(20),
     StoreID Integer,
     FOREIGN KEY (StoreID) REFERENCES Stores (StoreID)
 );
@@ -65,7 +66,7 @@ CREATE TABLE Sales (
     EmployeeID INTEGER,
     StoreID INTEGER,
     SalesDate DATETIME,
-    Amount NUMERIC,
+    Amount DOUBLE,
     FOREIGN KEY (CustomerID) REFERENCES Customers (CustomerID),
     FOREIGN KEY (EmployeeID) REFERENCES Employees (EmployeeID),
     FOREIGN KEY (StoreID) REFERENCES Stores (StoreID)
@@ -75,15 +76,13 @@ CREATE TABLE SaleDetails (
 	SaleDetailID INTEGER PRIMARY KEY AUTO_INCREMENT,
     SaleID INTEGER,
     ProductID INTEGER,
-    SizeID INTEGER,
     Quantity INTEGER,
     FOREIGN KEY (SaleID) REFERENCES Sales (SaleID),
-    FOREIGN KEY (ProductID) REFERENCES Products (ProductID),
-    FOREIGN KEY (SizeID) REFERENCES Size (SizeID)
+    FOREIGN KEY (ProductID) REFERENCES Products (ProductID)
 );
 CREATE TABLE Stocks (
 		ProductID INTEGER PRIMARY KEY,
         Stock INTEGER,
         StockDate DATETIME,
-        Cost NUMERIC
+        Cost DOUBLE
 );
