@@ -1,0 +1,7 @@
+USE bd_shoestore;
+CREATE OR REPLACE VIEW VentaUnidadesMarca as
+Select b.brandname,ss.Quantity, s.amount
+	from saledetails as ss
+	JOIN products as p	on ss.ProductID = p.ProductID
+    JOIN sales as s on ss.SaleID= s.SaleID
+    JOIN brands as b on p.BrandID=b.BrandID
