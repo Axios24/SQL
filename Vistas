@@ -4,4 +4,26 @@ Select b.brandname,ss.Quantity, s.amount
 	from saledetails as ss
 	JOIN products as p	on ss.ProductID = p.ProductID
     JOIN sales as s on ss.SaleID= s.SaleID
-    JOIN brands as b on p.BrandID=b.BrandID
+    JOIN brands as b on p.BrandID=b.BrandID;
+
+CREATE OR REPLACE VIEW VentaCategoria as
+Select c.CategoryName, ss.Quantity, s.amount
+	from saledetails as ss
+	JOIN products as p	on ss.ProductID = p.ProductID
+    JOIN sales as s on ss.SaleID= s.SaleID
+    JOIN categories as c on p.categoryID=c.CategoryID;
+    
+CREATE OR REPLACE VIEW VentaxEmpleado as 
+SELECT e.EmployeeID,e.FirstName,e.Jobdescription,e.StoreID,s.amount
+	from sales as s
+    JOIN employees as e on e.employeeID=s.employeeID;
+
+CREATE OR REPLACE VIEW VentasxEdades as
+SELECT c.Age,s.amount
+	from sales as s
+    JOIN customers as c on c.customerID=s.CustomerID;
+    
+CREATE OR REPLACE VIEW VentaTienda as
+Select st.StoreID,st.style,st.province,s.Amount
+	From sales as s
+    JOIN Stores as st on s.StoreID = st.StoreID
