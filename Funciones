@@ -1,0 +1,29 @@
+--Funcion 1: esta funcion nos va a permitir ver cuantos unidades por producto han sido vendidas para realizar futuros analisis de bestsellers
+
+DELIMITER //
+CREATE FUNCTION BestSellers(Producto Int) RETURNS int 
+deterministic
+Begin
+	declare total int;
+    SElECT sum(Quantity) into total from saledetails where Producto = productID;
+    return total;
+end//
+DELIMITER ;
+
+-- Funcion 2: Aqui calcularemos el margen de nuestros productos
+Delimiter $$
+CREATE FUNCTION CalculoMargen (IDventa int) returns DECIMAL (10,2)
+DETERMINISTIC
+Begin
+	Declare TotalVenta DECIMAL (10,2) ;
+	Declare CostoProducto DECIMAL (10,2);
+    Declare MargenVenta Decimal (10,2);
+    SELECT Amount into TotalVenta from sales where IDventa= SaleID ;
+    SELECT SUM(P.cost*sd.Quantity) into CostoProducto from Saledetails sd
+    Inner JOIN  stocks p on sd.ProductID=p.ProductID
+    where sd.SaleID= IDventa;
+    SET MargenVenta = totalVenta-CostoProducto;
+    RETURN MargenVenta;
+End $$
+DELIMITER ;
+    
