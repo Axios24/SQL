@@ -1,0 +1,35 @@
+-- Este procedimiento almacenado busca crear un reporte de ventas tomando como parametros un rango de fechas
+DELIMITER $$
+CREATE PROCEDURE GenerarReporteVentasPorPeriodo (In FechaInicio DATE, IN FechaFin DATE)
+BEGIN
+	SELECT v.SaleID, v.Amount, sd.saledetailID,sd.ProductID,sd.Quantity,st.cost, FORMAT((v.Amount - (sd.Quantity * st.cost)),2) as Margin
+    FROM Sales v
+    JOIN saledetails sd on v.saleID=sd.saleID
+    JOIN products p on sd.productID=p.productID
+    JOIN stocks st on sd.ProductID = st.ProductID
+    WHERE v.SalesDate BETWEEN FechaInicio and FechaFin;
+END $$
+DELIMITER ;
+
+-- ESte procedimiento busca generar un reporte de venta historica de productos por año y mes incluyendo nombre de categoria y marca
+DELIMITER //
+CREATE PROCEDURE GenerarReporteVentasPorProducto()
+BEGIN
+    SELECT p.ProductID,
+           SUM(v.Amount) AS VENTAProducto,
+           (SUM(sd.Quantity) * st.Cost) AS Margen,
+           b.brandName,
+           c.CategoryName,
+           YEAR(v.Salesdate) AS Año,
+           MONTH(v.Salesdate) AS Mes
+    FROM Sales v
+    INNER JOIN Saledetails sd ON v.saleID = sd.saleID
+    INNER JOIN STOCKs st ON sd.ProductID = st.ProductID
+    INNER JOIN products p ON sd.ProductID = p.ProductID
+    INNER JOIN brands b ON p.BrandID = b.BrandID
+    INNER JOIN categories c ON p.CategoryID = c.CategoryID
+    GROUP BY p.ProductID, Año, Mes;
+END //
+
+DELIMITER ;
+				
