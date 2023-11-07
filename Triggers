@@ -1,0 +1,26 @@
+-- Este trigger busca actualizar el stock con cada venta 
+DELIMITER //
+CREATE TRIGGER ActualizarStock
+AFTER  INSERT ON saledetails
+FOR EACH ROW
+BEGIN
+	UPDATE stocks
+    SET Stock = Stock -New.Quantity
+    WHERE ProductID = New.ProductID;
+END;
+//
+DELIMITER ;
+
+-- Este Trigger busca uniformizar la fecha del stock actualizado para que algunos productos no vendidos en la semana se queden con una fecha distinta a otros, ya que en ciertos reportes podria ser mas sencillo calcular el stock a cierta fecha unica
+DELIMITER //
+CREATE TRIGGER UniformizarFechaStock
+AFTER INSERT ON saledetails
+FOR EACH ROW
+BEGIN
+	SET @fecha_venta = DATE(Salesdate);
+	SET @domingo_semana = date_add(@fecha_venta,interval(7-dayofweek(@fecha_venta))DAY);
+    UPDATE stocks
+    SET FechaStockUniforme = @domingo_semana;
+END;
+//
+DELIMITER ;
