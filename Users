@@ -1,0 +1,32 @@
+-- Creamo 2 usuarios nuevos a la base de datos
+CREATE USER user_lectura@localhost IDENTIFIED BY '1234lectura';
+CREATE USER user_mod@localhost IDENTIFIED BY '1234mod';
+
+-- asignacion de permisos user lectura
+GRANT SELECT ON bd_shoestore.brands TO user_lectura@localhost;
+GRANT SELECT ON bd_shoestore.categories TO user_lectura@localhost;
+GRANT SELECT ON bd_shoestore.customers TO user_lectura@localhost;
+GRANT SELECT ON bd_shoestore.employees TO user_lectura@localhost;
+GRANT SELECT ON bd_shoestore.products TO user_lectura@localhost;
+GRANT SELECT ON bd_shoestore.saledetails TO user_lectura@localhost;
+GRANT SELECT ON bd_shoestore.sales TO user_lectura@localhost;
+GRANT SELECT ON bd_shoestore.stocks TO user_lectura@localhost;
+GRANT SELECT ON bd_shoestore.stores TO user_lectura@localhost;
+
+-- asignacion permisos user_mod
+GRANT SELECT, INSERT, UPDATE ON bd_shoestore.brands To user_mod@localhost;
+GRANT SELECT, INSERT, UPDATE  ON bd_shoestore.categories TO user_mod@localhost;
+GRANT SELECT, INSERT, UPDATE  ON bd_shoestore.customers TO user_mod@localhost;
+GRANT SELECT, INSERT, UPDATE  ON bd_shoestore.employees TO user_mod@localhost;
+GRANT SELECT, INSERT, UPDATE  ON bd_shoestore.products TO user_mod@localhost;
+GRANT SELECT, INSERT, UPDATE  ON bd_shoestore.saledetails TO user_mod@localhost;
+GRANT SELECT, INSERT, UPDATE  ON bd_shoestore.sales TO user_mod@localhost;
+GRANT SELECT, INSERT, UPDATE  ON bd_shoestore.stocks TO user_mod@localhost;
+GRANT SELECT, INSERT, UPDATE  ON bd_shoestore.stores TO user_mod@localhost;
+
+
+-- Impedir que eliminen registro de las tablas
+GRANT DELETE ON bd_shoestore.* to user_lectura@localhost;
+REVOKE DELETE ON bd_shoestore.* FROM user_lectura@localhost;
+GRANT DELETE ON bd_shoestore.* to user_mod@localhost;
+REVOKE DELETE ON bd_shoestore.* FROM user_mod@localhost;
