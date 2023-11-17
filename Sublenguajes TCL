@@ -1,0 +1,42 @@
+-- Para la tabla 1 
+
+START TRANSACTION;
+
+SET foreign_key_checks = 0;
+-- Eliminar registros de la tabla Brands donde el ID de la marca sea 9,10,11,12
+DELETE FROM brands WHERE BrandID IN (9,10,11,12);
+SET foreign_key_checks = 1;
+
+-- Sentencia Rollback
+ROLLBACK;
+
+-- Sentencia Commit
+-- COMMIT;
+
+-- Para la tabla 2 
+
+-- Iniciar transacción
+START TRANSACTION;
+
+-- Insertar 8 nuevos registros en la tabla de empleados
+INSERT INTO employees  VALUES
+(11111111, 'pepe', 'flores', '1990-01-01', '123456789', 'Vendedor', 1),
+(22222222, 'tito', 'Ados', '1990-02-02', '987654321', 'Vendedor', 1),
+(33333333, 'toni', 'Teos', '1990-03-03', '111222333', 'Vendedor', 2),
+(44444444, 'Cari', 'Maguire', '1990-04-04', '444555666', 'Vendedor', 2),
+(55555555, 'Pancho', 'Rashford', '1990-05-05', '777888999', 'Vendedor', 3),
+(66666666, 'Juancho', 'Granda', '1990-06-06', '999000111', 'Vendedor', 3),
+(77777777, 'Gero', 'Rios', '1990-07-07', '222333444', 'Vendedor', 4),
+(88888888, 'Arthas', 'Menethil', '1990-08-08', '555666777', 'Vendedor', 4);
+
+-- Crear savepoint después de la inserción del registro #4
+SAVEPOINT after_insert_4;
+
+-- Crear savepoint después de la inserción del registro #8
+SAVEPOINT after_insert_8;
+
+-- Sentencia de eliminación de uno de los savepoints 
+-- ROLLBACK TO after_insert_4;
+
+-- Confirmar la transacción
+COMMIT;
