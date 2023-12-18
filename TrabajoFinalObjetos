@@ -1,16 +1,15 @@
 CREATE SCHEMA BD_Shoestore;
 USE BD_Shoestore;
-
--- Creacion de tablas
 CREATE TABLE Customers (
 	CustomerID INTEGER PRIMARY KEY, 
 	CustomerFName VARCHAR(25), 
 	CustomerLName VARCHAR(25), 
 	Age INTEGER, 
-	Phone INTEGER, 
-	Mail VARCHAR(25),
-    BirthDate DATETIME,
-	RegisterDate DATETIME
+	Phone INTEGER,
+    Gender VARCHAR(25),
+	Mail VARCHAR(50),
+    BirthDate DATE,
+	RegisterDate DATE
 );
 
 CREATE TABLE Stores (
@@ -20,7 +19,7 @@ CREATE TABLE Stores (
     Province VARCHAR (25),
     Style VARCHAR (25),
     Size DOUBLE,
-    OpeningDate DATETIME
+    OpeningDate DATE
 );
 
 CREATE TABLE Categories (
@@ -35,16 +34,12 @@ CREATE TABLE Brands (
     Description VARCHAR(500)
 );
 
-CREATE TABLE Size (
-	SizeID INTEGER PRIMARY KEY,
-    Description VARCHAR(200)
-);
-
 CREATE TABLE Products (
 	ProductID INTEGER PRIMARY KEY,
     ProductName VARCHAR(50),
     CategoryID INTEGER,
     BrandID INTEGER,
+    Size VARCHAR(50),
     Season VARCHAR(50),
     Price DOUBLE,
     FOREIGN KEY (CategoryID) REFERENCES Categories (CategoryID),
@@ -55,7 +50,7 @@ CREATE TABLE Employees (
 	EmployeeID INTEGER PRIMARY KEY,
     FirstName VARCHAR(20),
     LastName VARCHAR(20),
-    BirthDate DATETIME,
+    BirthDate DATE,
     Phone INTEGER,
     JobDescription VARCHAR(20),
     StoreID Integer,
@@ -67,7 +62,7 @@ CREATE TABLE Sales (
     CustomerID INTEGER,
     EmployeeID INTEGER,
     StoreID INTEGER,
-    SalesDate DATETIME,
+    SalesDate DATE,
     Amount DOUBLE,
     FOREIGN KEY (CustomerID) REFERENCES Customers (CustomerID),
     FOREIGN KEY (EmployeeID) REFERENCES Employees (EmployeeID),
@@ -85,8 +80,10 @@ CREATE TABLE SaleDetails (
 CREATE TABLE Stocks (
 		ProductID INTEGER PRIMARY KEY,
         Stock INTEGER,
-        StockDate DATETIME,
-        Cost DOUBLE
+        StockDate DATE,
+        StockDateU DATE,
+        Cost DOUBLE,
+        FOREIGN KEY (ProductID) REFERENCES Products (ProductID)
 );
 
 -- Creacion de vistas 
